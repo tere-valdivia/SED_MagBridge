@@ -10,7 +10,10 @@ from photutils import aperture_photometry, CircularAperture, SkyCircularAperture
 
 """
 Be careful that the images have the beam in them
-The rms will not be correctly estimated in all cases
+The rms will not be correctly estimated in the case there is an extended
+primary beam correction in the map
+Final flux and errors are in Jy
+
 TODO: correct to take rms in ring
 """
 ####
@@ -27,14 +30,14 @@ aperture_radius = 50 * u.arcsec  # arcsec
 sky_center = aperture_center
 sky_in = np.ones(np.shape(imagelist)) * 2.5 * u.arcmin
 sky_out = np.ones(np.shape(imagelist)) * 3 * u.arcmin
-
+savefile = 'aphot_MagBridgeA'
 ####
 
 assert len(imagelist) == len(fluxcal_error) and len(
     imagelist) == len(sky_in) and len(imagelist) == len(sky_out)
 
 columns = ['aperture_sum', 'aperture_npix', 'aperture_flux', 'sky_sum',
-           'sky_mean', 'sky_npix', 'sky_flux', 'rms', 'flux', 'flux_error_cal', 'flux_error_noise']
+           'sky_mean', 'sky_npix', 'sky_flux', 'rms', 'flux', 'flux_error_cal', 'flux_error_noise', 'flux_error']
 results = pd.DataFrame(columns=columns)
 
 for i in range(len(imagelist)):
@@ -93,6 +96,8 @@ for i in range(len(imagelist)):
     rms_jy = rms * convert_to_Jy_beam(header, units)
     results.loc[filename, 'flux_error_noise'] = rms_jy * \
         np.sqrt(results.loc[filename, 'aperture_npix'] * (pixsize**2/beamarea).value)
+    results.loc[filename, 'flux_error'] = np.sqrt(
+        results.loc[filename, 'flux_error_noise']**2 + results.loc[filename, 'flux_error_cal']**2)
 
     # save in table
-results
+results.to_csv(savefile+'.csv')
