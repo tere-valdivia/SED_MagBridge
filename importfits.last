@@ -1,0 +1,10 @@
+fitsimage         = 'images/MagBridgeE_SMC_500um_combined_20121215_img.fits'
+imagename         = 'images/MagBridgeE_SMC_500um_combined_20121215_img.image'
+whichrep          = 0
+whichhdu          = -1
+zeroblanks        = True
+overwrite         = False
+defaultaxes       = False
+defaultaxesvalues = []
+beam              = []
+#importfits( fitsimage='images/MagBridgeE_SMC_500um_combined_20121215_img.fits',imagename='images/MagBridgeE_SMC_500um_combined_20121215_img.image',whichrep=0,whichhdu=-1,zeroblanks=True,overwrite=False,defaultaxes=False,defaultaxesvalues=[],beam=[] )
