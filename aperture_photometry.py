@@ -20,17 +20,29 @@ TODO: correct to take rms in ring
 # input parameters
 
 folder = 'images/'
-imagelist = ['MagBridgeA_100um_43arcsec', 'MagBridgeA_160um_43arcsec', 'MagBridgeA_250um_43arcsec', 'MagBridgeA_350um_43arcsec',
-             'MagBridgeA_500um', 'MagBridgeA_BoA_iter_RM_10_reprojected_43arcsec_cut_79_79']  # must all be with the same resolution
+# imagelist = ['MagBridgeA_100um_43arcsec', 'MagBridgeA_160um_43arcsec', 'MagBridgeA_250um_43arcsec', 'MagBridgeA_350um_43arcsec',
+#              'MagBridgeA_500um', 'MagBridgeA_BoA_iter_RM_10_reprojected_43arcsec_cut_79_79']  # must all be with the same resolution
+imagelist = ['MagBridgeF_SMC.HERITAGE.PACS100.img_43', 'MagBridgeF_SMC.HERITAGE.PACS160.img_43', 'MagBridgeF_SMC_250um_combined_20121215_img_43', 'MagBridgeF_SMC_350um_combined_20121215_img_43',
+             'MagBridgeF_SMC_500um_combined_20121215_img', 'MagBridgeF_MagBri_F_sm18_reprojected_43']  # must all be with the same resolution
+
 # percentage of error in the flux calibration for each image
 fluxcal_error = [0.1, 0.2, 0.08, 0.08, 0.08, 0.2]
-aperture_center = np.array([25.96189167, -74.53989194]) * u.deg
-aperture_radius = 50 * u.arcsec  # arcsec
+# MagBridgeA
+# aperture_center = np.array([25.96189167, -74.53989194]) * u.deg
+# aperture_radius = 50 * u.arcsec  # arcsec
+# MagBridgeF
+aperture_center = np.array([33.6623458, -74.3574931]) * u.deg
+aperture_radius = 46 * u.arcsec  # arcsec: covers full S/N=3 contour
+rmslist = [2.0, 5.0, 0.5, 0.3, 0.2, 0.005]
 # for different skies, do a list
 sky_center = aperture_center
-sky_in = np.ones(np.shape(imagelist)) * 2.5 * u.arcmin
-sky_out = np.ones(np.shape(imagelist)) * 3 * u.arcmin
-savefile = 'aphot_MagBridgeA'
+# MagBridgeA
+# sky_in = np.ones(np.shape(imagelist)) * 2.5 * u.arcmin
+# sky_out = np.ones(np.shape(imagelist)) * 3 * u.arcmin
+# MagBridgeF
+sky_in = np.ones(np.shape(imagelist)) * 1.5 * u.arcmin
+sky_out = np.ones(np.shape(imagelist)) * 2.5 * u.arcmin
+savefile = 'aphot_MagBridgeF'
 ####
 
 assert len(imagelist) == len(fluxcal_error) and len(
@@ -53,20 +65,25 @@ for i in range(len(imagelist)):
 
     # determine the beam and conversion factor
     bmaj, bmin, bpa, beamarea = get_beam(header)
-    units = header['BUNIT']
-    if units == '':
+    if not 'BUNIT' in header.keys():
         units = header['ZUNITS']
-    pixsize = header['CDELT2'] * u.deg
+    else:
+        units = header['BUNIT']
+        if units == '':
+            units = header['ZUNITS']
+    pixsize = header['CDELT2'] * header['PC2_2'] * u.deg
     conversion = convert_to_Jy(header, units)
-
+    print(units)
     # calculate the rms
     rms, noisedata = calculatenoise(data)
+    if i == len(imagelist) - 1:
+        rms = rmslist[i]
     results.loc[filename, 'rms'] = rms
 
     # define the apertures
     position = SkyCoord(aperture_center[0], aperture_center[1])
     aperture = SkyCircularAperture(position, r=aperture_radius)
-    position_sky = SkyCoord(25.98473333 * u.deg, -74.54753361 * u.deg)
+    position_sky = SkyCoord(aperture_center[0], aperture_center[1])
     aperture_sky = SkyCircularAnnulus(position_sky, r_in=r_in, r_out=r_out)
     pix_aperture = aperture.to_pixel(wcs)
     pix_sky = aperture_sky.to_pixel(wcs)

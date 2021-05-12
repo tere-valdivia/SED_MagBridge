@@ -27,9 +27,9 @@ def convert_to_Jy(header, initunit):
     if initunit == 'MJy/sr':
         brightness_conversion = (1 * u.MJy/u.sr).to(u.Jy/u.beam,
                                                     equivalencies=u.beam_angular_area(beamarea)).value
-        return brightness_conversion * ((header['CDELT2']*u.deg)**2/beamarea)
+        return brightness_conversion * ((header['CDELT2'] * header['PC2_2']*u.deg)**2/beamarea)
     if initunit == 'Jy/beam':
-        return ((header['CDELT2']*u.deg)**2/beamarea)
+        return ((header['CDELT2'] * header['PC2_2']*u.deg)**2/beamarea)
 
 
 def cut_image_with_beam(filename, cropcenter, cropwidth, cropheight, overwrite=False):

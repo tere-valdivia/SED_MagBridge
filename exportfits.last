@@ -1,5 +1,5 @@
-imagename  = 'images/MagBridgeE_SMC_350um_combined_20121215_img_43.image'
-fitsimage  = 'images/MagBridgeE_SMC_350um_combined_20121215_img_43.fits'
+imagename  = 'images/MagBridgeF_MagBri_F_sm18_reprojected_43.image'
+fitsimage  = 'images/MagBridgeF_MagBri_F_sm18_reprojected_43.fits'
 velocity   = False
 optical    = False
 bitpix     = -32
@@ -10,4 +10,4 @@ dropstokes = False
 stokeslast = True
 history    = True
 dropdeg    = False
-#exportfits( imagename='images/MagBridgeE_SMC_350um_combined_20121215_img_43.image',fitsimage='images/MagBridgeE_SMC_350um_combined_20121215_img_43.fits',velocity=False,optical=False,bitpix=-32,minpix=0,maxpix=-1,overwrite=False,dropstokes=False,stokeslast=True,history=True,dropdeg=False )
+#exportfits( imagename='images/MagBridgeF_MagBri_F_sm18_reprojected_43.image',fitsimage='images/MagBridgeF_MagBri_F_sm18_reprojected_43.fits',velocity=False,optical=False,bitpix=-32,minpix=0,maxpix=-1,overwrite=False,dropstokes=False,stokeslast=True,history=True,dropdeg=False )

@@ -1,5 +1,5 @@
-fitsimage         = 'images/MagBridgeE_SMC_500um_combined_20121215_img.fits'
-imagename         = 'images/MagBridgeE_SMC_500um_combined_20121215_img.image'
+fitsimage         = 'images/MagBridgeF_MagBri_F_sm18_reprojected.fits'
+imagename         = 'images/MagBridgeF_MagBri_F_sm18_reprojected.image'
 whichrep          = 0
 whichhdu          = -1
 zeroblanks        = True
@@ -7,4 +7,4 @@ overwrite         = False
 defaultaxes       = False
 defaultaxesvalues = []
 beam              = []
-#importfits( fitsimage='images/MagBridgeE_SMC_500um_combined_20121215_img.fits',imagename='images/MagBridgeE_SMC_500um_combined_20121215_img.image',whichrep=0,whichhdu=-1,zeroblanks=True,overwrite=False,defaultaxes=False,defaultaxesvalues=[],beam=[] )
+#importfits( fitsimage='images/MagBridgeF_MagBri_F_sm18_reprojected.fits',imagename='images/MagBridgeF_MagBri_F_sm18_reprojected.image',whichrep=0,whichhdu=-1,zeroblanks=True,overwrite=False,defaultaxes=False,defaultaxesvalues=[],beam=[] )
